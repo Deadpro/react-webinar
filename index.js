@@ -1,14 +1,30 @@
 import {createElement} from "./utils.js";
+import App from "./app.js";
+import Store from "./store.js";
 
-const app = createElement('div', {className: 'App'},
-    createElement('div', {className: 'App-head'},
-        createElement('h1', {textContent: 'Приложение на чистом JS'})
-    ),
-    createElement('div', {className: 'App-controls'},
-        createElement('button', {textContent: 'Добавить'}),
-    ),
-);
+const store = new Store({
+    list: [
+        {code: 1, title: 'Название элемента'},
+        {code: 2, title: 'Некий объект'},
+        {code: 3, title: 'Заголовок'},
+        {code: 4, title: 'Очень длинное название элемента из семи слов'},
+        {code: 5, title: 'Запись', selected: true},
+        {code: 6, title: 'Шестая запись'},
+        {code: 7, title: 'Седьмая запись'},
+    ]
+});
 
+store.subscribe(() => {
+    // Удаляем содержимое body
+    while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
+
+    // Добавляем в body новый рендер приложения
+    document.body.append(
+        App({store})
+    );
+});
+
+// const app = App({store});
 
 // const h1 = document.createElement('h1');
 // h1.textContent = 'Приложение на чистом JS';
@@ -21,4 +37,5 @@ const app = createElement('div', {className: 'App'},
 // app.className = 'App';
 // app.append(head);
 
-document.body.append(app);
+// Первый рендер приложения
+document.body.append(App({store}));

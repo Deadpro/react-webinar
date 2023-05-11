@@ -12,7 +12,7 @@ export function createElement(name, props = {}, ...children) {
 
     //Назначение свойств и атрибутов
     for (const name of Object.keys(props)) {
-        if (propNames.has(name)) {
+        if (propName.has(name)) {
             element[name] = props[name];
         } else {
             element.setAttribute(name, props[name]);
