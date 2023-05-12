@@ -36,7 +36,7 @@ class Store {
      */
     setState(newState) {
         this.state = newState;
-        sessionStorage.setItem("lastNumber", parseInt(this.state.list[this.state.list.length - 1]['code']));
+        sessionStorage.setItem("nnumbers", parseInt(this.state.list[this.state.list.length - 1]['code']));
         // sessionStorage.removeItem("lastNumber");
         // Вызываем всех слушателей
         for (const listener of this.listeners) listener();
@@ -48,7 +48,7 @@ class Store {
     addItem() {
         this.setState({
             ...this.state,
-            list: [...this.state.list, {code: parseInt(sessionStorage.getItem("lastNumber") + 1), title: 'Новая запись'}]
+            list: [...this.state.list, {code: parseInt(sessionStorage.getItem("nnumbers")) + parseInt(1), title: 'Новая запись'}]
         })
     };
 
