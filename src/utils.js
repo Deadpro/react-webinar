@@ -1,4 +1,4 @@
-const propName = new Set(['id', 'className', 'textContent', 'onclick']);
+const propNames = new Set(['id', 'className', 'textContent', 'onclick']);
 
 /**
  * Создание элемента со свойствами и вложенными элементами
@@ -12,7 +12,7 @@ export function createElement(name, props = {}, ...children) {
 
     //Назначение свойств и атрибутов
     for (const name of Object.keys(props)) {
-        if (propName.has(name)) {
+        if (propNames.has(name)) {
             element[name] = props[name];
         } else {
             element.setAttribute(name, props[name]);

@@ -3,13 +3,13 @@
  */
 
 class Store {
-    contructor(initState = {}) {
+    constructor(initState = {}) {
         this.state = initState;
         this.listeners = []; // Слушатели изменений состояния
     }
 
     /**
-     * Подписка слушателя на зменения состояния
+     * Подписка слушателя на изменения состояния
      * @param listener {Function} 
      * @returns {Function} Функция отписки
      */
@@ -36,6 +36,8 @@ class Store {
      */
     setState(newState) {
         this.state = newState;
+        sessionStorage.setItem("lastNumber", parseInt(this.state.list[this.state.list.length - 1]['code']));
+        // sessionStorage.removeItem("lastNumber");
         // Вызываем всех слушателей
         for (const listener of this.listeners) listener();
     }    
@@ -43,10 +45,10 @@ class Store {
     /**
      * Добавление новой записи
      */
-    addItem = () => {
+    addItem() {
         this.setState({
             ...this.state,
-            list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+            list: [...this.state.list, {code: parseInt(sessionStorage.getItem("lastNumber") + 1), title: 'Новая запись'}]
         })
     };
 
@@ -54,12 +56,28 @@ class Store {
      * Удаление записи по коду
      * @param code
      */
-    deleteItem = (code) => {
+    deleteItem(code) {
         this.setState({
             ...this.state,
             list: this.state.list.filter(item => item.code !== code)
         })
     };
+
+    /**
+     * Выделение записи по ее коду
+     * @param code
+     */
+    selectItem(code) {
+        this.setState({
+            ...this.state,
+            list: this.state.list.map(item => {
+                if (item.code === code) {
+                    item.selected = !item.selected;
+                }
+                return item;
+            })
+        })
+    }
 }
 
 export default Store;
